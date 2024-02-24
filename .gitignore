@@ -1,0 +1,5 @@
+*.exe
+.vscode/
+.idea/
+./api/
+.DS_Store

@@ -1,10 +1,31 @@
 version: '3'
 services:
+
+  db:
+    build:
+      context: .
+      dockerfile: docker/database/Dockerfile
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "`1qaz@wsx"
+    networks:
+      - "mynet"
+
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/apis/Dockerfile
+    restart: on-failure
     ports:
       - "8080:8080"
     volumes:
       - .:/app
+    depends_on:
+      - "db"
+    networks:
+      - "mynet"
+
+networks:
+  mynet:
+    driver: "bridge"
