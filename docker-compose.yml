@@ -9,6 +9,9 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "`1qaz@wsx"
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
+      LANG: C.UTF-8
     networks:
       - "mynet"
 
