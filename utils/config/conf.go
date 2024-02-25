@@ -12,7 +12,7 @@ type Config struct {
 		SQLUrl string `yaml:"sql_url"`
 	} `yaml:"database"`
 	Server struct {
-		Port int `yaml:"port"`
+		Port string `yaml:"port"`
 	} `yaml:"server"`
 }
 
@@ -20,15 +20,14 @@ func (c *Config) GetDatabaseUrl() string {
 	return c.Database.SQLUrl
 }
 
-func (c *Config) GetServerPort() int {
+func (c *Config) GetServerPort() string {
 	return c.Server.Port
 }
 
 func init() {
-	// 在包初始化時讀取並解析配置文件
 	err := ReadConfig("conf/config.yml")
 	if err != nil {
-		panic(fmt.Errorf("無法讀取配置文件：%v", err))
+		panic(fmt.Errorf("config read fail：%v", err))
 	}
 }
 

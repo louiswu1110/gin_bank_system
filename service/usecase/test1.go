@@ -1,8 +1,9 @@
 package usecase
 
 import (
-	"encoding/json"
+	"context"
 	"fmt"
+	"meepshop_project/service/handler"
 	"net/http"
 )
 
@@ -41,25 +42,17 @@ func ArrayToNode(arr []interface{}) *Node {
 	return head
 }
 
-func Test1(w http.ResponseWriter, r *http.Request) {
-	var requestData struct {
-		Array []interface{} `json:"Array"`
-	}
-	err := json.NewDecoder(r.Body).Decode(&requestData)
-	if err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
-		return
-	}
-
+func Test1(ctx context.Context, strList []interface{}) (handler.ResponseWithData, error) {
+	resp := ""
 	// 轉換陣列
-	node := ArrayToNode(requestData.Array)
+	node := ArrayToNode(strList)
 
 	curr := node
 	index := 0
 	for curr != nil {
 		// 第一個點為 head
 		if index == 0 {
-			fmt.Fprintf(w, "head -> %v\n", curr.Value)
+			resp += fmt.Sprintf("head -> %v\n", curr.Value)
 
 			// 移動到下一個節點
 			index++
@@ -74,11 +67,14 @@ func Test1(w http.ResponseWriter, r *http.Request) {
 
 		// 最後一個點為 tail
 		if curr == nil {
-			fmt.Fprintf(w, "tail -> %v\n", prev.Value)
+			resp += fmt.Sprintf("tail -> %v\n", prev.Value)
 		} else {
 			// 中間點
-			fmt.Fprintf(w, "node%d -> %v\n", index, prev.Value)
+			resp += fmt.Sprintf("node%d -> %v\n", index, prev.Value)
 		}
 		index++
 	}
+	return handler.ResponseWithData{
+		Data: resp,
+	}, nil
 }
