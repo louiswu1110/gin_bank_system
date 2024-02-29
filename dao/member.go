@@ -3,7 +3,6 @@ package dao
 import (
 	"context"
 	"github.com/jinzhu/gorm"
-	"meepshop_project/database"
 	"meepshop_project/model"
 )
 
@@ -11,8 +10,8 @@ type MemberDAO struct {
 	*gorm.DB
 }
 
-func NewMemberDao(ctx context.Context) *MemberDAO {
-	return &MemberDAO{database.Db.New()}
+func NewMemberDao(ctx context.Context, db *gorm.DB) *MemberDAO {
+	return &MemberDAO{db}
 }
 func (m *MemberDAO) GetMemberByUsername(username string) (*model.Member, error) {
 	var member model.Member

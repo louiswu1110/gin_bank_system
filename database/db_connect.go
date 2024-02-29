@@ -17,3 +17,8 @@ func InitDB() {
 		log.Fatal(err)
 	}
 }
+
+// NewTestSession only for unit-test
+func NewTestSession() *gorm.DB {
+	return Db.New()
+}

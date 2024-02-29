@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"meepshop_project/service/handler"
+	"meepshop_project/service/request"
 	"meepshop_project/service/usecase"
 	"meepshop_project/utils/config"
 )
@@ -13,12 +14,15 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	router.POST("/test-1", Test1)
-
 	group := router.Group("/api/v1")
 	member := group.Group("/member")
 	{
 		member.GET("/info/:username", MemberInfo)
+	}
+
+	admin := group.Group("/admin")
+	{
+		admin.POST("/admin/deposit", AdminDeposit)
 	}
 
 	return router
@@ -31,16 +35,9 @@ func RunServer() {
 	fmt.Println("server is running at port", config.GlobalConfig.GetServerPort())
 }
 
-func Test1(ctx *gin.Context) {
-	var requestData struct {
-		Array []interface{} `json:"Array"`
-	}
-	if err := handler.BindJson(ctx, &requestData); err != nil {
-		handler.ResponseJsonBadRequest(ctx, err)
-		return
-	}
-
-	resp, err := usecase.Test1(ctx, requestData.Array)
+func MemberInfo(ctx *gin.Context) {
+	username := ctx.Param("username")
+	resp, err := usecase.MemberGetInfo(ctx, username)
 	if err != nil {
 		handler.ResponseJsonBadRequest(ctx, err)
 		return
@@ -52,9 +49,13 @@ func Test1(ctx *gin.Context) {
 	}
 }
 
-func MemberInfo(ctx *gin.Context) {
-	username := ctx.Param("username")
-	resp, err := usecase.MemberGetInfo(ctx, username)
+func AdminDeposit(ctx *gin.Context) {
+	var req request.AdminDeposit
+	if err := handler.BindJson(ctx, &req); err != nil {
+		handler.ResponseJsonBadRequest(ctx, err)
+		return
+	}
+	resp, err := usecase.AdminDeposit(ctx, &req)
 	if err != nil {
 		handler.ResponseJsonBadRequest(ctx, err)
 		return

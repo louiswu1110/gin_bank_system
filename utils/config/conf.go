@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"path/filepath"
 )
 
 var GlobalConfig Config // 定義全局變量來存儲配置
@@ -25,7 +26,9 @@ func (c *Config) GetServerPort() string {
 }
 
 func init() {
-	err := ReadConfig("conf/config.yml")
+
+	absPath, _ := filepath.Abs("../conf/config.yml")
+	err := ReadConfig(absPath)
 	if err != nil {
 		panic(fmt.Errorf("config read fail：%v", err))
 	}
