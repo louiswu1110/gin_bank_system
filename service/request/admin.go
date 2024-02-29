@@ -1,7 +1,7 @@
 package request
 
 type AdminDeposit struct {
-	MemberId int64   `json:"member_id,omitempty"`
+	MemberId int64   `json:"member_id,string"`
 	Amount   float64 `json:"amount"`
-	AdminId  int64   `json:"admin_id,omitempty"`
+	AdminId  int64   `json:"admin_id,string"`
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"meepshop_project/database"
 	"meepshop_project/model"
+	"meepshop_project/utils/config"
 	"testing"
 	"time"
 
@@ -24,6 +25,10 @@ type transactionTestSuite struct {
 }
 
 func (s *transactionTestSuite) SetupSuite() {
+	if err := config.InitRootFolder("../../"); err != nil {
+		panic(err)
+	}
+	config.InitConfig()
 	database.InitDB()
 	s.db = database.NewTestSession()
 	// ctx
@@ -88,6 +93,14 @@ func (s *transactionTestSuite) TestGetSuccessful() {
 	s.Require().Equal(s.mockTransaction.CurrentBalance, resp.CurrentBalance)
 	s.Require().Equal(s.mockTransaction.ChangedBalance, resp.ChangedBalance)
 
+}
+func (s *transactionTestSuite) TestGetFail() {
+
+	transactionDAO := NewTransactionDAO(s.ctx, s.db)
+	failID := 0
+	resp, err := transactionDAO.GetById(int64(failID))
+	s.Require().Nil(resp)
+	s.Require().Equal(err, gorm.ErrRecordNotFound)
 }
 
 func TestTransaction(t *testing.T) {

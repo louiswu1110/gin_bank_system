@@ -21,3 +21,12 @@ func (m *MemberDAO) GetMemberByUsername(username string) (*model.Member, error) 
 	}
 	return &member, nil
 }
+
+func (m *MemberDAO) GetMemberById(id int64) (*model.Member, error) {
+	var member model.Member
+	err := m.DB.Where("id = ?", id).First(&member).Error
+	if err != nil {
+		return nil, err
+	}
+	return &member, nil
+}

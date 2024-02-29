@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"github.com/jinzhu/gorm"
+	"meepshop_project/database"
 	"meepshop_project/model"
 )
 
@@ -21,4 +22,19 @@ func (m *MemberAccountDAO) GetMemberAccountByMemberId(memberId int64) (*model.Me
 		return nil, err
 	}
 	return &memberAccount, nil
+}
+
+func (m *MemberAccountDAO) GetByMemberIdForUpdate(memberId int64) (*model.MemberAccount, error) {
+	var memberAccount model.MemberAccount
+	err := m.DB.Set(database.GormSetSelectForUpdate()).
+		Where("member_id = ?", memberId).
+		First(&memberAccount).Error
+	if err != nil {
+		return nil, err
+	}
+	return &memberAccount, nil
+}
+
+func (m *MemberAccountDAO) Update(memberAccount *model.MemberAccount) error {
+	return m.DB.Save(memberAccount).Error
 }

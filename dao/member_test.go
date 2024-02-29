@@ -2,10 +2,12 @@ package dao
 
 import (
 	"context"
-	"meepshop_project/database"
-	"meepshop_project/model"
 	"testing"
 	"time"
+
+	"meepshop_project/database"
+	"meepshop_project/model"
+	"meepshop_project/utils/config"
 
 	"github.com/golang/mock/gomock"
 	"github.com/jinzhu/gorm"
@@ -22,6 +24,10 @@ type memberTestSuite struct {
 }
 
 func (s *memberTestSuite) SetupSuite() {
+	if err := config.InitRootFolder("../../"); err != nil {
+		panic(err)
+	}
+	config.InitConfig()
 	database.InitDB()
 	s.db = database.NewTestSession()
 	// ctx
@@ -71,6 +77,15 @@ func (s *memberTestSuite) TestGetSuccessful() {
 	s.Require().Equal(s.mockMember.Username, resp.Username)
 	s.Require().Equal(s.mockMember.Nickname, resp.Nickname)
 
+}
+
+func (s *memberTestSuite) TestGetFail() {
+
+	memberDAO := NewMemberDao(s.ctx, s.db)
+	failName := "fail"
+	resp, err := memberDAO.GetMemberByUsername(failName)
+	s.Require().Nil(resp)
+	s.Require().Equal(err, gorm.ErrRecordNotFound)
 }
 
 func TestMember(t *testing.T) {

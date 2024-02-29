@@ -44,15 +44,13 @@ create table member_account
 
 
 INSERT INTO `admin` (`id`, `username`, `added_time`)
-VALUES ((SELECT CONCAT(FLOOR(UNIX_TIMESTAMP() * 1000), FLOOR(10000 + RAND() * 90000))), 'admin', NOW());
+VALUES (3, 'admin', NOW());
 
 INSERT INTO `member` (`id`, `nickname`, `username`, `added_time`)
-VALUES ((SELECT CONCAT(FLOOR(UNIX_TIMESTAMP() * 1000), FLOOR(10000 + RAND() * 90000))),
-        '小明明', 'ming', NOW());
+VALUES (1, '小明明', 'ming', NOW());
 
 INSERT INTO `member` (`id`, `nickname`, `username`, `added_time`)
-VALUES ((SELECT CONCAT(FLOOR(UNIX_TIMESTAMP() * 1000), FLOOR(10000 + RAND() * 90000))),
-        '大熊熊', 'bear', NOW());
+VALUES (2, '大熊熊', 'bear', NOW());
 
 INSERT INTO `member_account` (`member_id`, `balance`, `added_time`, `updated_time`)
 VALUES ((SELECT `id` FROM `member` WHERE username = 'bear'), 0, NOW(), NOW());

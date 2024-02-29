@@ -22,7 +22,7 @@ func NewRouter() *gin.Engine {
 
 	admin := group.Group("/admin")
 	{
-		admin.POST("/admin/deposit", AdminDeposit)
+		admin.POST("/deposit", AdminDeposit)
 	}
 
 	return router

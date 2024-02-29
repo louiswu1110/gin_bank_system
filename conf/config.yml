@@ -1,4 +1,4 @@
 database:
-  sql_url: "root:`1qaz@wsx@tcp(127.0.0.1:3306)/meepshop_bank?parseTime=true"
+  sql_url: "root:`1qaz@wsx@tcp(127.0.0.10:3306)/meepshop_bank?parseTime=true"
 server:
   port: ":8080"

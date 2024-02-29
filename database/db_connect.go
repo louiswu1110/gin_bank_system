@@ -7,7 +7,15 @@ import (
 	"meepshop_project/utils/config"
 )
 
+const (
+	GormQueryOption = "gorm:query_option"
+	SyntaxForUpdate = "FOR UPDATE"
+)
+
 var Db *gorm.DB
+var (
+	GormSetSelectForUpdate = func() (string, string) { return GormQueryOption, SyntaxForUpdate }
+)
 
 func InitDB() {
 	var err error

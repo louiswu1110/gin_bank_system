@@ -21,3 +21,7 @@ func (m *TransactionDAO) GetById(id int64) (*model.Transaction, error) {
 	}
 	return &transaction, nil
 }
+
+func (m *TransactionDAO) Insert(transaction *model.Transaction) error {
+	return m.DB.Create(transaction).Error
+}
