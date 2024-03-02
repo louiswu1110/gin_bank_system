@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"context"
+	"github.com/gin-gonic/gin"
 	"meepshop_project/database"
 	"meepshop_project/model"
 	"meepshop_project/utils/config"
@@ -16,7 +16,7 @@ import (
 type transactionTestSuite struct {
 	suite.Suite
 	db                *gorm.DB
-	ctx               context.Context
+	ctx               gin.Context
 	mockTransactionID int64
 	mockMemberID      int64
 	mockName          string
@@ -32,7 +32,7 @@ func (s *transactionTestSuite) SetupSuite() {
 	database.InitDB()
 	s.db = database.NewTestSession()
 	// ctx
-	s.ctx = context.Background()
+	s.ctx = gin.Context{}
 
 	s.mockTransactionID = 321123
 	s.mockMemberID = 123
@@ -83,7 +83,7 @@ func (s *transactionTestSuite) TearDownSuite() {
 
 func (s *transactionTestSuite) TestGetSuccessful() {
 
-	transactionDAO := NewTransactionDAO(s.ctx, s.db)
+	transactionDAO := NewTransactionDAO(&s.ctx, s.db)
 
 	resp, err := transactionDAO.GetById(s.mockTransactionID)
 	s.Require().Nil(err)
@@ -96,7 +96,7 @@ func (s *transactionTestSuite) TestGetSuccessful() {
 }
 func (s *transactionTestSuite) TestGetFail() {
 
-	transactionDAO := NewTransactionDAO(s.ctx, s.db)
+	transactionDAO := NewTransactionDAO(&s.ctx, s.db)
 	failID := 0
 	resp, err := transactionDAO.GetById(int64(failID))
 	s.Require().Nil(resp)

@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"context"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"meepshop_project/database"
 	"meepshop_project/model"
@@ -11,7 +11,7 @@ type MemberAccountDAO struct {
 	*gorm.DB
 }
 
-func NewMemberAccountDao(ctx context.Context, db *gorm.DB) *MemberAccountDAO {
+func NewMemberAccountDao(ctx *gin.Context, db *gorm.DB) *MemberAccountDAO {
 	return &MemberAccountDAO{db}
 }
 
@@ -36,5 +36,12 @@ func (m *MemberAccountDAO) GetByMemberIdForUpdate(memberId int64) (*model.Member
 }
 
 func (m *MemberAccountDAO) Update(memberAccount *model.MemberAccount) error {
-	return m.DB.Save(memberAccount).Error
+	return m.DB.Model(model.MemberAccount{}).
+		Where("member_id = ?", memberAccount.MemberId).
+		Updates(memberAccount).
+		Error
+}
+
+func (m *MemberAccountDAO) Insert(memberAccount *model.MemberAccount) error {
+	return m.DB.Create(memberAccount).Error
 }

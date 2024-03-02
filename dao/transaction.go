@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"context"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"meepshop_project/model"
 )
@@ -10,7 +10,7 @@ type TransactionDAO struct {
 	*gorm.DB
 }
 
-func NewTransactionDAO(ctx context.Context, db *gorm.DB) *TransactionDAO {
+func NewTransactionDAO(ctx *gin.Context, db *gorm.DB) *TransactionDAO {
 	return &TransactionDAO{db}
 }
 func (m *TransactionDAO) GetById(id int64) (*model.Transaction, error) {
@@ -24,4 +24,22 @@ func (m *TransactionDAO) GetById(id int64) (*model.Transaction, error) {
 
 func (m *TransactionDAO) Insert(transaction *model.Transaction) error {
 	return m.DB.Create(transaction).Error
+}
+
+func (m *TransactionDAO) GetList() ([]*model.Transaction, error) {
+	var transactions []*model.Transaction
+	err := m.DB.Find(&transactions).Error
+	if err != nil {
+		return nil, err
+	}
+	return transactions, nil
+}
+
+func (m *TransactionDAO) GetListByMemberId(memberId int64) ([]*model.Transaction, error) {
+	var transactions []*model.Transaction
+	err := m.DB.Where("member_id = ?", memberId).Find(&transactions).Error
+	if err != nil {
+		return nil, err
+	}
+	return transactions, nil
 }

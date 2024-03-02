@@ -1,20 +1,25 @@
 package usecase
 
 import (
-	"context"
 	"errors"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"meepshop_project/dao"
 	"meepshop_project/database"
 	"meepshop_project/model"
 	"meepshop_project/service/handler"
 	"meepshop_project/service/request"
+	"meepshop_project/utils/tools"
 	"time"
 )
 
-func AdminDeposit(ctx context.Context, req *request.AdminDeposit) (*handler.ResponseWithData, error) {
-	err := checkRequest(ctx, req)
+type AdminDeposit struct {
+}
+
+func (ad *AdminDeposit) AdminDeposit(ctx *gin.Context, req *request.AdminDeposit) (*handler.ResponseWithData, error) {
+	err := ad.checkRequest(ctx, req)
 	if err != nil {
 		fmt.Println(fmt.Errorf("[AdminDeposit]check request err: %v", err))
 		return nil, err
@@ -34,6 +39,7 @@ func AdminDeposit(ctx context.Context, req *request.AdminDeposit) (*handler.Resp
 		// insert transaction
 		transactionDao := dao.NewTransactionDAO(ctx, db)
 		transaction := &model.Transaction{
+			Id:             tools.GenerateIDInt64(),
 			MemberId:       req.MemberId,
 			Amount:         req.Amount,
 			CurrentBalance: memberAccount.Balance,
@@ -41,7 +47,7 @@ func AdminDeposit(ctx context.Context, req *request.AdminDeposit) (*handler.Resp
 			Type:           model.TransactionTypeManualDeposit,
 			OperatorId:     req.AdminId,
 			Remarks:        "admin deposit",
-			AddedTime:      time.Now(),
+			AddedTime:      time.Now().UTC(),
 		}
 		if err := transactionDao.Insert(transaction); err != nil {
 			fmt.Println(fmt.Errorf("[AdminDeposit]insert transaction err: %v", err))
@@ -50,6 +56,7 @@ func AdminDeposit(ctx context.Context, req *request.AdminDeposit) (*handler.Resp
 
 		//update member account
 		memberAccount.Balance += req.Amount
+		memberAccount.UpdatedTime = aws.Time(time.Now().UTC())
 		if err := memberAccountDao.Update(memberAccount); err != nil {
 			fmt.Println(fmt.Errorf("[AdminDeposit]update member account err: %v", err))
 			return errors.New("unknown error")
@@ -68,13 +75,13 @@ func AdminDeposit(ctx context.Context, req *request.AdminDeposit) (*handler.Resp
 }
 
 // check request
-func checkRequest(ctx context.Context, req *request.AdminDeposit) error {
+func (ad *AdminDeposit) checkRequest(ctx *gin.Context, req *request.AdminDeposit) error {
 	if req.MemberId <= 0 {
 		return errors.New("member id is invalid")
 	}
 	// get member
 	memberDao := dao.NewMemberDao(ctx, database.Db.New())
-	if _, err := memberDao.GetMemberById(req.MemberId); err != nil {
+	if _, err := memberDao.GetById(req.MemberId); err != nil {
 		return errors.New("not found member")
 	}
 

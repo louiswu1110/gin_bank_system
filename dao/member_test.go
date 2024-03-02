@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"context"
+	"github.com/gin-gonic/gin"
 	"testing"
 	"time"
 
@@ -17,7 +17,7 @@ import (
 type memberTestSuite struct {
 	suite.Suite
 	db         *gorm.DB
-	ctx        context.Context
+	ctx        gin.Context
 	mockID     int64
 	mockName   string
 	mockMember *model.Member
@@ -31,7 +31,7 @@ func (s *memberTestSuite) SetupSuite() {
 	database.InitDB()
 	s.db = database.NewTestSession()
 	// ctx
-	s.ctx = context.Background()
+	s.ctx = gin.Context{}
 
 	// Mock
 	s.mockID = 321123
@@ -69,9 +69,9 @@ func (s *memberTestSuite) TearDownSuite() {
 
 func (s *memberTestSuite) TestGetSuccessful() {
 
-	memberDAO := NewMemberDao(s.ctx, s.db)
+	memberDAO := NewMemberDao(&s.ctx, s.db)
 
-	resp, err := memberDAO.GetMemberByUsername(s.mockName)
+	resp, err := memberDAO.GetByUsername(s.mockName)
 	s.Require().Nil(err)
 	s.Require().Equal(s.mockMember.Id, resp.Id)
 	s.Require().Equal(s.mockMember.Username, resp.Username)
@@ -81,9 +81,9 @@ func (s *memberTestSuite) TestGetSuccessful() {
 
 func (s *memberTestSuite) TestGetFail() {
 
-	memberDAO := NewMemberDao(s.ctx, s.db)
+	memberDAO := NewMemberDao(&s.ctx, s.db)
 	failName := "fail"
-	resp, err := memberDAO.GetMemberByUsername(failName)
+	resp, err := memberDAO.GetByUsername(failName)
 	s.Require().Nil(resp)
 	s.Require().Equal(err, gorm.ErrRecordNotFound)
 }
