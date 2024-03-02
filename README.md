@@ -10,15 +10,17 @@
   - id: 2
 
 ## How to run
-- install docker and docker-compose
+- install `docker` and `docker-compose`
 - command `docker-compose up`
-- server will run on port 8080
-- 
+- server will run on port `8080`
 
-## Clean Env Run
+## How to Call API
+- use `postman` or `curl` to call API
+- API document in `meepshop.postmanv2.1_collection.json`
+
+## Clean Environment
 - command `docker-compose down`
 - command `docker-compose build --no-cache`
-- command `docker-compose up`
 
 ## Question 1 Given the root of a binary tree, invert the tree, and return its root.(Don’t use recursion.)
 - /cmd/question/questionOne.go
@@ -29,5 +31,8 @@
 - auth flow(like jwt or session)
 - transaction add sing
 - admin permission design
-- db migration
+- DB migration
 - env setting
+- full unit test
+- statistics for transaction (daily, weekly, monthly, yearly)
+- CI/CD setting(github action, jenkins, etc.)
