@@ -2,9 +2,9 @@ package server
 
 import (
 	"fmt"
+	"gin_bank/service/controller"
+	"gin_bank/utils/config"
 	"github.com/gin-gonic/gin"
-	"meepshop_project/service/controller"
-	"meepshop_project/utils/config"
 )
 
 func NewRouter() *gin.Engine {

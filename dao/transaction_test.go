@@ -1,10 +1,10 @@
 package dao
 
 import (
+	"gin_bank/database"
+	"gin_bank/model"
+	"gin_bank/utils/config"
 	"github.com/gin-gonic/gin"
-	"meepshop_project/database"
-	"meepshop_project/model"
-	"meepshop_project/utils/config"
 	"testing"
 	"time"
 

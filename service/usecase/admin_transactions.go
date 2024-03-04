@@ -3,14 +3,14 @@ package usecase
 import (
 	"errors"
 	"fmt"
+	"gin_bank/dao"
+	"gin_bank/database"
+	"gin_bank/model"
+	"gin_bank/service/handler"
+	"gin_bank/service/request"
+	"gin_bank/service/response"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"meepshop_project/dao"
-	"meepshop_project/database"
-	"meepshop_project/model"
-	"meepshop_project/service/handler"
-	"meepshop_project/service/request"
-	"meepshop_project/service/response"
 	"time"
 )
 

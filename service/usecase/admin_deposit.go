@@ -3,15 +3,15 @@ package usecase
 import (
 	"errors"
 	"fmt"
+	"gin_bank/dao"
+	"gin_bank/database"
+	"gin_bank/model"
+	"gin_bank/service/handler"
+	"gin_bank/service/request"
+	"gin_bank/utils/tools"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"meepshop_project/dao"
-	"meepshop_project/database"
-	"meepshop_project/model"
-	"meepshop_project/service/handler"
-	"meepshop_project/service/request"
-	"meepshop_project/utils/tools"
 	"time"
 )
 

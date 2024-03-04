@@ -1,6 +1,6 @@
-CREATE DATABASE meepshop_bank;
+CREATE DATABASE gin_bank;
 
-Use meepshop_bank;
+Use gin_bank;
 
 
 create table admin

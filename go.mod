@@ -1,4 +1,4 @@
-module meepshop_project
+module gin_bank
 
 go 1.19
 

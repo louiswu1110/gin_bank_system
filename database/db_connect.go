@@ -1,10 +1,10 @@
 package database
 
 import (
+	"gin_bank/utils/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
-	"meepshop_project/utils/config"
 )
 
 const (

@@ -3,11 +3,11 @@ package usecase
 import (
 	"errors"
 	"fmt"
+	"gin_bank/dao"
+	"gin_bank/database"
+	"gin_bank/service/handler"
+	"gin_bank/service/response"
 	"github.com/gin-gonic/gin"
-	"meepshop_project/dao"
-	"meepshop_project/database"
-	"meepshop_project/service/handler"
-	"meepshop_project/service/response"
 )
 
 type MemberInfo struct {

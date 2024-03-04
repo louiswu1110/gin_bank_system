@@ -5,9 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"meepshop_project/database"
-	"meepshop_project/model"
-	"meepshop_project/utils/config"
+	"gin_bank/database"
+	"gin_bank/model"
+	"gin_bank/utils/config"
 
 	"github.com/golang/mock/gomock"
 	"github.com/jinzhu/gorm"

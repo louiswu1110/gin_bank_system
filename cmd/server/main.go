@@ -1,10 +1,10 @@
 package main
 
 import (
-	"meepshop_project/database"
-	"meepshop_project/service/server"
-	"meepshop_project/utils/config"
-	"meepshop_project/utils/tools"
+	"gin_bank/database"
+	"gin_bank/service/server"
+	"gin_bank/utils/config"
+	"gin_bank/utils/tools"
 )
 
 func main() {

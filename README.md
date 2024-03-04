@@ -1,4 +1,4 @@
-# For meepshop project
+# For gin project
 ## Default Data
 - admin account
   - username: admin
@@ -16,7 +16,7 @@
 
 ## How to Call API
 - use `postman` or `curl` to call API
-- API document in `meepshop.postmanv2.1_collection.json`
+- API document in `gin.postmanv2.1_collection.json`
 
 ## Clean Environment
 - command `docker-compose down`

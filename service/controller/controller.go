@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"gin_bank/service/handler"
+	"gin_bank/service/request"
+	"gin_bank/service/usecase"
 	"github.com/gin-gonic/gin"
-	"meepshop_project/service/handler"
-	"meepshop_project/service/request"
-	"meepshop_project/service/usecase"
 	"strconv"
 )
 

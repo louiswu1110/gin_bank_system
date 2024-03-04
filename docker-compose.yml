@@ -30,7 +30,7 @@ services:
       MYSQL_PORT: 3306
       MYSQL_USER: root
       MYSQL_PASSWORD: "`1qaz@wsx"
-      MYSQL_DATABASE: meepshop_bank
+      MYSQL_DATABASE: gin_bank
     depends_on:
       - db
     networks:

@@ -1,10 +1,10 @@
 package dao
 
 import (
+	"gin_bank/database"
+	"gin_bank/model"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"meepshop_project/database"
-	"meepshop_project/model"
 )
 
 type MemberAccountDAO struct {

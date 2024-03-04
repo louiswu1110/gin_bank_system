@@ -1,9 +1,9 @@
 package dao
 
 import (
+	"gin_bank/model"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"meepshop_project/model"
 )
 
 type AdminDAO struct {
