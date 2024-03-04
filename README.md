@@ -22,9 +22,6 @@
 - command `docker-compose down`
 - command `docker-compose build --no-cache`
 
-## Question 1 Given the root of a binary tree, invert the tree, and return its root.(Don’t use recursion.)
-- /cmd/question/questionOne.go
-
 ## To Be Optimized
 - password salt for member and admin
 - middleware for authentication
